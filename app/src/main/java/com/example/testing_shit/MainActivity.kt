@@ -3,7 +3,12 @@ package com.example.testing_shit
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,39 +16,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.testing_shit.ui.theme.Testing_shitTheme
-
-
-// ============================================================
-// DATA
-// ============================================================
-
-data class Task(
-    val id: Int,
-    val title: String,
-    var completed: Boolean = false
-)
-
-enum class Priority {
-    LOW,
-    MEDIUM,
-    HIGH
-}
-
-
-// ============================================================
-// MAIN ACTIVITY
-// ============================================================
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
 
@@ -51,216 +37,156 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Testing_shitTheme {
-                TodoApp()
-            }
+            MainScreen()
         }
     }
 }
 
-
-// ============================================================
-// MAIN APP
-// ============================================================
-
 @Composable
-fun TodoApp() {
-
-    // --------------------------------------------------------
-    // State
-    // --------------------------------------------------------
-
-    var newTask by remember {
-        mutableStateOf("")
-    }
-
-    var tasks by remember {
-        mutableStateOf(
-            listOf(
-                Task(1, "Learn Kotlin"),
-                Task(2, "Study Android"),
-                Task(3, "Do hamework")
-            )
-        )
-    }
-
-
-    // --------------------------------------------------------
-    // UI
-    // --------------------------------------------------------
+fun MainScreen() {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text(
-            text = "My Tasks",
-            style = MaterialTheme.typography.headlineMedium
+        PersonCard(
+            name = "Juan Pérez",
+            description = "Estudiante de Ingeniería"
         )
 
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-
-        // ----------------------------------------------------
-        // Text field + Add button
-        // ----------------------------------------------------
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-
-            OutlinedTextField(
-                value = newTask,
-
-                onValueChange = {
-                    newTask = it
-                },
-
-                modifier = Modifier.weight(1f),
-
-                label = {
-                    Text("New task")
-                }
-            )
-
-            Button(
-                onClick = {
-
-                    if (newTask.isNotBlank()) {
-
-                        val task = Task(
-                            id = tasks.size + 1,
-                            title = newTask
-                        )
-
-                        tasks = tasks + task
-
-                        newTask = ""
-                    }
-                }
-            ) {
-                Text("+")
-            }
-        }
-
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-
-        // ----------------------------------------------------
-        // Task list
-        // ----------------------------------------------------
-
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-
-            items(tasks) { task ->
-
-                TaskItem(
-                    task = task,
-
-                    onCheckedChange = { checked ->
-
-                        tasks = tasks.map {
-
-                            if (it.id == task.id) {
-
-                                it.copy(
-                                    completed = checked
-                                )
-
-                            } else {
-                                it
-                            }
-                        }
-                    }
-                )
-            }
-        }
-
-
-        // ----------------------------------------------------
-        // Remaining tasks
-        // ----------------------------------------------------
-
-        val remaining = tasks.count {
-            !it.completed
-        }
-
-        Text(
-            text = "$remaining tasks remaining"
+        PersonCard(
+            name = "María López",
+            description = "Desarrolladora de software"
         )
     }
 }
-
-
-// ============================================================
-// TASK ITEM
-// ============================================================
 
 @Composable
-fun TaskItem(
-    task: Task,
-    onCheckedChange: (Boolean) -> Unit
+fun PersonCard(
+    name: String,
+    description: String
 ) {
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-
-        horizontalArrangement = Arrangement.Start
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp),
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(1.dp, Color.LightGray),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
     ) {
 
-        Checkbox(
-            checked = task.completed,
+        Column {
 
-            onCheckedChange = onCheckedChange
-        )
+            // Header
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+                    .padding(start = 4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
-        Text(
-            text = task.displayText(),
+                // Blue "Card" label
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(Color(0xFF2196F3))
+                        .padding(
+                            horizontal = 6.dp,
+                            vertical = 2.dp
+                        )
+                ) {
+                    Text(
+                        text = "Card",
+                        color = Color.White,
+                        fontSize = 12.sp
+                    )
+                }
 
-            modifier = Modifier.padding(16.dp)
-        )
-    }
-}
+                Spacer(modifier = Modifier.width(8.dp))
 
+                Text(
+                    text = "Título",
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
+                )
+            }
 
-// ============================================================
-// EXTENSION FUNCTION
-// ============================================================
+            // Content
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .border(
+                        1.dp,
+                        Color.LightGray
+                    )
+            ) {
 
-fun Task.displayText(): String {
+                // Image / Avatar
+                Box(
+                    modifier = Modifier
+                        .size(90.dp)
+                        .padding(8.dp)
+                        .border(
+                            1.dp,
+                            Color.LightGray,
+                            RoundedCornerShape(4.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
 
-    return if (completed) {
-        "✓ $title"
-    } else {
-        "○ $title"
-    }
-}
+                    Text(
+                        text = "👤",
+                        fontSize = 45.sp
+                    )
+                }
 
+                // Information
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = 8.dp,
+                            start = 8.dp
+                        )
+                ) {
 
-// ============================================================
-// EXAMPLE OF `when`
-// ============================================================
+                    Text(
+                        text = "Nombre",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.DarkGray
+                    )
 
-fun priorityText(priority: Priority): String {
+                    Text(
+                        text = name,
+                        fontSize = 13.sp
+                    )
 
-    return when (priority) {
+                    Spacer(
+                        modifier = Modifier.height(10.dp)
+                    )
 
-        Priority.LOW ->
-            "Low priority"
+                    Text(
+                        text = "Descripción",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.DarkGray
+                    )
 
-        Priority.MEDIUM ->
-            "Medium priority"
-
-        Priority.HIGH ->
-            "High priority"
+                    Text(
+                        text = description,
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        }
     }
 }
