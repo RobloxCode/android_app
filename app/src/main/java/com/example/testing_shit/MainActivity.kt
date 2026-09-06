@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -42,16 +41,15 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+// Pantalla principal
 @Composable
 fun MainScreen() {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
         PersonCard(
             name = "Juan Pérez",
             description = "Estudiante de Ingeniería"
@@ -64,127 +62,130 @@ fun MainScreen() {
     }
 }
 
+// Componente Card
 @Composable
 fun PersonCard(
     name: String,
     description: String
 ) {
-
+    // Contenedor principal de la tarjeta
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp),
-        shape = RoundedCornerShape(8.dp),
-        border = BorderStroke(1.dp, Color.LightGray),
+            .height(180.dp),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, Color.Gray),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
     ) {
-
-        Column {
-
-            // Header
+        Column(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            // Header con la etiqueta Card y titulo
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp)
-                    .padding(start = 4.dp),
+                    .height(36.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
-                // Blue "Card" label
+                // Etiqueta azul
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color(0xFF2196F3))
-                        .padding(
-                            horizontal = 6.dp,
-                            vertical = 2.dp
-                        )
+                        .clip(RoundedCornerShape(6.dp))
+                        .background(Color(0xFF007AFF))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
                         text = "Card",
                         color = Color.White,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
                     )
                 }
 
                 Spacer(modifier = Modifier.width(8.dp))
 
+                // Titulo de la tarjeta
                 Text(
                     text = "Título",
-                    fontSize = 14.sp,
-                    color = Color.DarkGray
+                    fontSize = 16.sp,
+                    color = Color.Gray
                 )
             }
 
-            // Content
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // Seccion del contenido inferior (Imagen + Datos)
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .border(
-                        1.dp,
-                        Color.LightGray
-                    )
+                    .border(1.dp, Color.LightGray, RoundedCornerShape(8.dp))
             ) {
-
-                // Image / Avatar
+                // Box que simula el marco del avatar en la tarjeta
                 Box(
                     modifier = Modifier
-                        .size(90.dp)
-                        .padding(8.dp)
-                        .border(
-                            1.dp,
-                            Color.LightGray,
-                            RoundedCornerShape(4.dp)
-                        ),
+                        .size(110.dp)
+                        .padding(6.dp)
+                        .border(1.dp, Color.Gray)
+                        .padding(4.dp),
                     contentAlignment = Alignment.Center
                 ) {
-
                     Text(
                         text = "👤",
-                        fontSize = 45.sp
+                        fontSize = 50.sp
                     )
                 }
 
-                // Information
+                // Columna para informacion dividida internamente
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = 8.dp,
-                            start = 8.dp
-                        )
+                        .fillMaxSize()
                 ) {
+                    // Bloque para Nombre
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .border(1.dp, Color.LightGray)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Column {
+                            Text(
+                                text = "Nombre",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = name,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
 
-                    Text(
-                        text = "Nombre",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.DarkGray
-                    )
-
-                    Text(
-                        text = name,
-                        fontSize = 13.sp
-                    )
-
-                    Spacer(
-                        modifier = Modifier.height(10.dp)
-                    )
-
-                    Text(
-                        text = "Descripción",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.DarkGray
-                    )
-
-                    Text(
-                        text = description,
-                        fontSize = 12.sp
-                    )
+                    // Bloque para Descripsion
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1.5f)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                        contentAlignment = Alignment.TopStart
+                    ) {
+                        Column {
+                            Text(
+                                text = "Descripción",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = description,
+                                fontSize = 13.sp
+                            )
+                        }
+                    }
                 }
             }
         }
