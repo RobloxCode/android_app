@@ -198,3 +198,76 @@
     //}
 //}
 
+package com.example.testing_shit
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            BoxColorsScreen()
+        }
+    }
+}
+
+@Composable
+fun BoxColorsScreen() {
+    // Contenedor principal que ocupa toda la pantalla
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        // Cuadro rojo
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(Color.Red)
+                .align(Alignment.TopStart)
+        )
+
+        // Cuadro azul
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(Color(0xFF00008B))
+                .align(Alignment.TopEnd)
+        )
+
+        // Cuadro amarillo
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(Color.Yellow)
+                .align(Alignment.Center)
+        )
+
+        // Cuadro morado
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(Color(0xFF800080))
+                .align(Alignment.BottomStart)
+        )
+
+        // Cuadro verde
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(Color(0xFF00FF00))
+                .align(Alignment.BottomEnd)
+        )
+    }
+}
