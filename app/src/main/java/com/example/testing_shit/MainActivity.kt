@@ -284,6 +284,125 @@
     =============================
  */
 
+//package com.example.testing_shit
+//
+//import android.os.Bundle
+//import androidx.activity.ComponentActivity
+//import androidx.activity.compose.setContent
+//import androidx.compose.foundation.background
+//import androidx.compose.foundation.layout.Box
+//import androidx.compose.foundation.layout.Column
+//import androidx.compose.foundation.layout.Row
+//import androidx.compose.foundation.layout.Spacer
+//import androidx.compose.foundation.layout.fillMaxHeight
+//import androidx.compose.foundation.layout.fillMaxSize
+//import androidx.compose.foundation.layout.fillMaxWidth
+//import androidx.compose.foundation.layout.width
+//import androidx.compose.runtime.Composable
+//import androidx.compose.ui.Modifier
+//import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.unit.dp
+//
+//class MainActivity : ComponentActivity() {
+    //override fun onCreate(savedInstanceState: Bundle?) {
+        //super.onCreate(savedInstanceState)
+        //setContent {
+            //FlexibleBoxesScreen()
+        //}
+    //}
+//}
+//
+//// Pantalla principal que coloca los dos ejemplos lado a lado
+//@Composable
+//fun FlexibleBoxesScreen() {
+    //Row(
+        //modifier = Modifier.fillMaxSize()
+    //) {
+        //// Primera columna
+        //ColumnLayoutOne(
+            //modifier = Modifier
+                //.weight(1f)
+                //.fillMaxHeight()
+        //)
+//
+        //// Divisor visual opcional entre pantallas
+        //Spacer(modifier = Modifier.width(8.dp))
+//
+        //// Segunda columna
+        //ColumnLayoutTwo(
+            //modifier = Modifier
+                //.weight(1f)
+                //.fillMaxHeight()
+        //)
+    //}
+//}
+//
+//// Primer layout: Verde chico, Rojo medio, Azul grande
+//@Composable
+//fun ColumnLayoutOne(modifier: Modifier = Modifier) {
+    //Column(modifier = modifier) {
+        //// Bloque verde
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.15f)
+                //.background(Color(0xFF66FF00))
+        //)
+//
+        //// Bloque rojo
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.15f)
+                //.background(Color.Red)
+        //)
+//
+        //// Bloque azul
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.7f)
+                //.background(Color(0xFF00008B))
+        //)
+//    }
+//}
+
+// Segundo layout
+//@Composable
+//fun ColumnLayoutTwo(modifier: Modifier = Modifier) {
+    //Column(modifier = modifier) {
+        //// Bloque verde
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.15f)
+                //.background(Color(0xFF66FF00))
+        //)
+
+        // Bloque rojo
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.75f)
+                //.background(Color.Red)
+        //)
+//
+        //// Bloque azul
+        //Box(
+            //modifier = Modifier
+                //.fillMaxWidth()
+                //.weight(0.1f)
+                //.background(Color(0xFF00008B))
+        //)
+    //}
+//}
+
+/*
+    =============================
+            EJERCICIO 4
+    =============================
+ */
+
 package com.example.testing_shit
 
 import android.os.Bundle
@@ -291,108 +410,92 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FlexibleBoxesScreen()
+            ConstraintLayoutScreen()
         }
     }
 }
 
-// Pantalla principal que coloca los dos ejemplos lado a lado
+// Pantalla con la disposicion de bloques usando ConstraintLayout
 @Composable
-fun FlexibleBoxesScreen() {
-    Row(
+fun ConstraintLayoutScreen() {
+    ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Primera columna
-        ColumnLayoutOne(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        )
+        // Declaracion de las referencias para posicionamiento
+        val (yellowBox, blueBox, greenBox, purpleBox, redBox) = createRefs()
 
-        // Divisor visual opcional entre pantallas
-        Spacer(modifier = Modifier.width(8.dp))
-
-        // Segunda columna
-        ColumnLayoutTwo(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight()
-        )
-    }
-}
-
-// Primer layout: Verde chico, Rojo medio, Azul grande
-@Composable
-fun ColumnLayoutOne(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        // Bloque verde
+        // Cuadro verde
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.15f)
+                .size(70.dp)
                 .background(Color(0xFF66FF00))
+                .constrainAs(greenBox) {
+                    // Centra el cuadro respecto a la pantalla completa
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
         )
 
-        // Bloque rojo
+        // Cuadro amarillo
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.15f)
-                .background(Color.Red)
+                .size(70.dp)
+                .background(Color.Yellow)
+                .constrainAs(yellowBox) {
+                    // Se conecta a la parte superior e izquierda del centro
+                    bottom.linkTo(greenBox.top)
+                    end.linkTo(greenBox.start)
+                }
         )
 
-        // Bloque azul
+        // Cuadro azul
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.7f)
+                .size(70.dp)
                 .background(Color(0xFF00008B))
-        )
-    }
-}
-
-// Segundo layout
-@Composable
-fun ColumnLayoutTwo(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        // Bloque verde
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.15f)
-                .background(Color(0xFF66FF00))
+                .constrainAs(blueBox) {
+                    // Se conecta a la parte superior y derecha del centro
+                    bottom.linkTo(greenBox.top)
+                    start.linkTo(greenBox.end)
+                }
         )
 
-        // Bloque rojo
+        // Cuadro morado
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.75f)
+                .size(70.dp)
+                .background(Color(0xFF800080))
+                .constrainAs(purpleBox) {
+                    // Se conecta a la parte inferior e izquierda del centro
+                    top.linkTo(greenBox.bottom)
+                    end.linkTo(greenBox.start)
+                }
+        )
+
+        // Cuadro rojo
+        Box(
+            modifier = Modifier
+                .size(70.dp)
                 .background(Color.Red)
-        )
-
-        // Bloque azul
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.1f)
-                .background(Color(0xFF00008B))
+                .constrainAs(redBox) {
+                    // Se conecta a la parte inferior y derecha del centro
+                    top.linkTo(greenBox.bottom)
+                    start.linkTo(greenBox.end)
+                }
         )
     }
 }
