@@ -360,47 +360,164 @@ package com.example.testing_shit
     //}
 //}
 
+import android.os.Bundle
+
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Spa
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+
+// ---------------------------------------------------------
+// DATA CLASSES
+// ---------------------------------------------------------
+
+data class AlignYourBodyData(
+    @DrawableRes val drawable: Int,
+    @StringRes val text: Int
+)
+
+data class FavoriteCollectionData(
+    @DrawableRes val drawable: Int,
+    @StringRes val text: Int
+)
+
+// ---------------------------------------------------------
+// DATA
+// ---------------------------------------------------------
+
+private val alignYourBodyData = listOf(
+    AlignYourBodyData(
+        R.drawable.ab1_inversions,
+        R.string.ab1_inversions
+    ),
+    AlignYourBodyData(
+        R.drawable.ab2_quick_yoga,
+        R.string.ab2_quick_yoga
+    ),
+    AlignYourBodyData(
+        R.drawable.ab3_stretching,
+        R.string.ab3_stretching
+    ),
+    AlignYourBodyData(
+        R.drawable.ab4_tabata,
+        R.string.ab4_tabata
+    )
+)
+
+private val favoriteCollectionsData = listOf(
+    FavoriteCollectionData(
+        R.drawable.fc1_short_mantras,
+        R.string.fc1_short_mantras
+    ),
+    FavoriteCollectionData(
+        R.drawable.fc2_nature_meditations,
+        R.string.fc2_nature_meditations
+    )
+)
+
+// ---------------------------------------------------------
+// SEARCH BAR
+// ---------------------------------------------------------
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier
 ) {
+    var searchText by remember {
+        mutableStateOf("")
+    }
+
     TextField(
-        value = "",
-        onValueChange = {},
+        value = searchText,
+        onValueChange = {
+            searchText = it
+        },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
-                contentDescription = null
+                contentDescription = "Search"
             )
         },
+        placeholder = {
+            Text(
+                text = stringResource(R.string.placeholder_search)
+            )
+        },
+        singleLine = true,
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContainerColor = MaterialTheme.colorScheme.surface
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
+            focusedIndicatorColor = MaterialTheme.colorScheme.primary
         ),
-        placeholder = {
-            Text(stringResource(R.string.placeholder_search))
-        },
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 56.dp)
     )
 }
 
-import androidx.compose.foundation.layout.paddingFromBaseline
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.layout.ContentScale
+// ---------------------------------------------------------
+// ALIGN YOUR BODY ELEMENT
+// ---------------------------------------------------------
 
 @Composable
 fun AlignYourBodyElement(
@@ -413,33 +530,51 @@ fun AlignYourBodyElement(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(drawable),
+            painter = painterResource(id = drawable),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(88.dp)
                 .clip(CircleShape)
         )
+
         Text(
-            text = stringResource(text),
-            modifier = Modifier.paddingFromBaseline(top = 24.dp, bottom = 8.dp),
+            text = stringResource(id = text),
+            modifier = Modifier.paddingFromBaseline(
+                top = 24.dp,
+                bottom = 8.dp
+            ),
             style = MaterialTheme.typography.bodyMedium
         )
     }
 }
 
+// ---------------------------------------------------------
+// ALIGN YOUR BODY ROW
+// ---------------------------------------------------------
 
-@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
 @Composable
-fun AlignYourBodyElementPreview() {
-    MySootheTheme {
-        AlignYourBodyElement(
-            text = R.string.ab1_inversions,
-            drawable = R.drawable.ab1_inversions,
-            modifier = Modifier.padding(8.dp)
-        )
+fun AlignYourBodyRow(
+    modifier: Modifier = Modifier
+) {
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = modifier
+    ) {
+        items(alignYourBodyData) { item ->
+
+            AlignYourBodyElement(
+                drawable = item.drawable,
+                text = item.text
+            )
+        }
     }
 }
+
+// ---------------------------------------------------------
+// FAVORITE COLLECTION CARD
+// ---------------------------------------------------------
 
 @Composable
 fun FavoriteCollectionCard(
@@ -457,13 +592,14 @@ fun FavoriteCollectionCard(
             modifier = Modifier.width(255.dp)
         ) {
             Image(
-                painter = painterResource(drawable),
+                painter = painterResource(id = drawable),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.size(80.dp)
             )
+
             Text(
-                text = stringResource(text),
+                text = stringResource(id = text),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -471,38 +607,9 @@ fun FavoriteCollectionCard(
     }
 }
 
-
-//..
-
-
-@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
-@Composable
-fun FavoriteCollectionCardPreview() {
-    MySootheTheme {
-        FavoriteCollectionCard(
-            text = R.string.fc2_nature_meditations,
-            drawable = R.drawable.fc2_nature_meditations,
-            modifier = Modifier.padding(8.dp)
-        )
-    }
-}
-
-import androidx.compose.foundation.layout.PaddingValues
-
-@Composable
-fun AlignYourBodyRow(
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier
-    ) {
-        items(alignYourBodyData) { item ->
-            AlignYourBodyElement(item.drawable, item.text)
-        }
-    }
-}
+// ---------------------------------------------------------
+// FAVORITE COLLECTIONS GRID
+// ---------------------------------------------------------
 
 @Composable
 fun FavoriteCollectionsGrid(
@@ -516,10 +623,19 @@ fun FavoriteCollectionsGrid(
         modifier = modifier.height(168.dp)
     ) {
         items(favoriteCollectionsData) { item ->
-            FavoriteCollectionCard(item.drawable, item.text, Modifier.height(80.dp))
+
+            FavoriteCollectionCard(
+                drawable = item.drawable,
+                text = item.text,
+                modifier = Modifier.height(80.dp)
+            )
         }
     }
 }
+
+// ---------------------------------------------------------
+// HOME SECTION
+// ---------------------------------------------------------
 
 @Composable
 fun HomeSection(
@@ -527,74 +643,110 @@ fun HomeSection(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    Column(modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Text(
-            text = stringResource(title),
+            text = stringResource(id = title),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
-                .paddingFromBaseline(top = 40.dp, bottom = 16.dp)
+                .paddingFromBaseline(
+                    top = 40.dp,
+                    bottom = 16.dp
+                )
                 .padding(horizontal = 16.dp)
         )
+
         content()
     }
 }
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+// ---------------------------------------------------------
+// HOME SCREEN
+// ---------------------------------------------------------
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier
-            .verticalScroll(rememberScrollState())
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(
+                rememberScrollState()
+            )
     ) {
-        Spacer(Modifier.height(16.dp))
-        SearchBar(Modifier.padding(horizontal = 16.dp))
-        HomeSection(title = R.string.align_your_body) {
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
+
+        SearchBar(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        HomeSection(
+            title = R.string.align_your_body
+        ) {
             AlignYourBodyRow()
         }
-        HomeSection(title = R.string.favorite_collections) {
+
+        HomeSection(
+            title = R.string.favorite_collections
+        ) {
             FavoriteCollectionsGrid()
         }
-        Spacer(Modifier.height(16.dp))
+
+        Spacer(
+            modifier = Modifier.height(16.dp)
+        )
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE, heightDp = 180)
-@Composable
-fun ScreenContentPreview() {
-    MySootheTheme { HomeScreen() }
-}
+// ---------------------------------------------------------
+// BOTTOM NAVIGATION
+// ---------------------------------------------------------
 
 @Composable
-private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
+private fun SootheBottomNavigation(
+    modifier: Modifier = Modifier
+) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surfaceVariant,
         modifier = modifier
     ) {
+
         NavigationBarItem(
             icon = {
                 Icon(
                     imageVector = Icons.Default.Spa,
-                    contentDescription = null
+                    contentDescription = "Home"
                 )
             },
             label = {
-                Text(stringResource(R.string.bottom_navigation_home))
+                Text(
+                    text = stringResource(
+                        R.string.bottom_navigation_home
+                    )
+                )
             },
             selected = true,
             onClick = {}
         )
+
         NavigationBarItem(
             icon = {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
-                    contentDescription = null
+                    contentDescription = "Profile"
                 )
             },
             label = {
-                Text(stringResource(R.string.bottom_navigation_profile))
+                Text(
+                    text = stringResource(
+                        R.string.bottom_navigation_profile
+                    )
+                )
             },
             selected = false,
             onClick = {}
@@ -602,57 +754,87 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
     }
 }
 
-
-import androidx.compose.material3.Scaffold
+// ---------------------------------------------------------
+// PORTRAIT
+// ---------------------------------------------------------
 
 @Composable
 fun MySootheAppPortrait() {
+
     MySootheTheme {
+
         Scaffold(
-            bottomBar = { SootheBottomNavigation() }
-        ) { padding ->
-            HomeScreen(Modifier.padding(padding))
+            bottomBar = {
+                SootheBottomNavigation()
+            }
+        ) { paddingValues ->
+
+            HomeScreen(
+                modifier = Modifier.padding(
+                    paddingValues
+                )
+            )
         }
     }
 }
 
-
-import androidx.compose.foundation.layout.fillMaxHeight
+// ---------------------------------------------------------
+// NAVIGATION RAIL
+// ---------------------------------------------------------
 
 @Composable
-private fun SootheNavigationRail(modifier: Modifier = Modifier) {
+private fun SootheNavigationRail(
+    modifier: Modifier = Modifier
+) {
     NavigationRail(
-        modifier = modifier.padding(start = 8.dp, end = 8.dp),
-        containerColor = MaterialTheme.colorScheme.background,
+        modifier = modifier.padding(
+            start = 8.dp,
+            end = 8.dp
+        ),
+        containerColor = MaterialTheme.colorScheme.background
     ) {
+
         Column(
-            modifier = modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             NavigationRailItem(
                 icon = {
                     Icon(
                         imageVector = Icons.Default.Spa,
-                        contentDescription = null
+                        contentDescription = "Home"
                     )
                 },
                 label = {
-                    Text(stringResource(R.string.bottom_navigation_home))
+                    Text(
+                        text = stringResource(
+                            R.string.bottom_navigation_home
+                        )
+                    )
                 },
                 selected = true,
                 onClick = {}
             )
-            Spacer(modifier = Modifier.height(8.dp))
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
+
             NavigationRailItem(
                 icon = {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
-                        contentDescription = null
+                        contentDescription = "Profile"
                     )
                 },
                 label = {
-                    Text(stringResource(R.string.bottom_navigation_profile))
+                    Text(
+                        text = stringResource(
+                            R.string.bottom_navigation_profile
+                        )
+                    )
                 },
                 selected = false,
                 onClick = {}
@@ -660,43 +842,130 @@ private fun SootheNavigationRail(modifier: Modifier = Modifier) {
         }
     }
 }
+
+// ---------------------------------------------------------
+// LANDSCAPE
+// ---------------------------------------------------------
+
 @Composable
 fun MySootheAppLandscape() {
+
     MySootheTheme {
-        Surface(color = MaterialTheme.colorScheme.background) {
-            Row {
+
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxSize()
+            ) {
+
                 SootheNavigationRail()
-                HomeScreen()
+
+                HomeScreen(
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }
 }
 
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+// ---------------------------------------------------------
+// RESPONSIVE APP
+// ---------------------------------------------------------
+
 @Composable
-fun MySootheApp(windowSize: WindowSizeClass) {
+fun MySootheApp(
+    windowSize: WindowSizeClass
+) {
+
     when (windowSize.widthSizeClass) {
+
         WindowWidthSizeClass.Compact -> {
             MySootheAppPortrait()
         }
+
+        WindowWidthSizeClass.Medium,
         WindowWidthSizeClass.Expanded -> {
             MySootheAppLandscape()
         }
     }
 }
 
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+// ---------------------------------------------------------
+// MAIN ACTIVITY
+// ---------------------------------------------------------
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    @OptIn(
+        ExperimentalMaterial3WindowSizeClassApi::class
+    )
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
-            MySootheApp(windowSizeClass)
+
+            val windowSizeClass =
+                calculateWindowSizeClass(this)
+
+            MySootheApp(
+                windowSize = windowSizeClass
+            )
         }
     }
 }
 
+// ---------------------------------------------------------
+// PREVIEWS
+// ---------------------------------------------------------
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFF5F0EE
+)
+@Composable
+fun AlignYourBodyElementPreview() {
+
+    MySootheTheme {
+
+        AlignYourBodyElement(
+            text = R.string.ab1_inversions,
+            drawable = R.drawable.ab1_inversions,
+            modifier = Modifier.padding(8.dp)
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFF5F0EE
+)
+@Composable
+fun FavoriteCollectionCardPreview() {
+
+    MySootheTheme {
+
+        FavoriteCollectionCard(
+            text = R.string.fc2_nature_meditations,
+            drawable = R.drawable.fc2_nature_meditations,
+            modifier = Modifier.padding(8.dp)
+        )
+    }
+}
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFF5F0EE,
+    heightDp = 700
+)
+@Composable
+fun ScreenContentPreview() {
+
+    MySootheTheme {
+        MySootheAppPortrait()
+    }
+}
