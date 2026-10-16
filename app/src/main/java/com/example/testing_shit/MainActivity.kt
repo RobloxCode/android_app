@@ -1,971 +1,283 @@
 package com.example.testing_shit
 
-//import android.os.Bundle
-//import androidx.activity.ComponentActivity
-//import androidx.activity.compose.setContent
-//import androidx.compose.foundation.BorderStroke
-//import androidx.compose.foundation.background
-//import androidx.compose.foundation.border
-//import androidx.compose.foundation.layout.Arrangement
-//import androidx.compose.foundation.layout.Box
-//import androidx.compose.foundation.layout.Column
-//import androidx.compose.foundation.layout.Row
-//import androidx.compose.foundation.layout.Spacer
-//import androidx.compose.foundation.layout.fillMaxHeight
-//import androidx.compose.foundation.layout.fillMaxSize
-//import androidx.compose.foundation.layout.fillMaxWidth
-//import androidx.compose.foundation.layout.height
-//import androidx.compose.foundation.layout.padding
-//import androidx.compose.foundation.layout.size
-//import androidx.compose.foundation.layout.width
-//import androidx.compose.foundation.shape.RoundedCornerShape
-//import androidx.compose.material3.Card
-//import androidx.compose.material3.CardDefaults
-//import androidx.compose.material3.Text
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Alignment
-//import androidx.compose.ui.Modifier
-//import androidx.compose.ui.draw.clip
-//import androidx.compose.ui.graphics.Color
-//import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.unit.sp
-//import androidx.constraintlayout.compose.ConstraintLayout
-//
-//class MainActivity : ComponentActivity() {
-    //override fun onCreate(savedInstanceState: Bundle?) {
-        //super.onCreate(savedInstanceState)
-        //setContent {
-            //Ejercicio1Screen()
-            ////Ejercicio2Screen()
-            ////Ejercicio3Screen()
-            ////Ejercicio4Screen()
-        //}
-    //}
-//}
-//
-///* ============================================================================
-   //EJERCICIO 1: Interfaz basada en Cards (MD3) con Orientación Vertical
-   //============================================================================ */
-//
-//@Composable
-//fun Ejercicio1Screen() {
-    //Column(
-        //modifier = Modifier
-            //.fillMaxSize()
-            //.padding(16.dp),
-        //verticalArrangement = Arrangement.spacedBy(16.dp)
-    //) {
-        //PersonCard(
-            //name = "Juan Pérez",
-            //description = "Estudiante de Ingeniería"
-        //)
-        //PersonCard(
-            //name = "María López",
-            //description = "Desarrolladora de software"
-        //)
-    //}
-//}
-//
-//@Composable
-//fun PersonCard(
-    //name: String,
-    //description: String
-//) {
-    //Card(
-        //modifier = Modifier
-            //.fillMaxWidth()
-            //.height(180.dp),
-        //shape = RoundedCornerShape(12.dp),
-        //border = BorderStroke(1.dp, Color.Gray),
-        //colors = CardDefaults.cardColors(containerColor = Color.White)
-    //) {
-        //Column(modifier = Modifier.padding(8.dp)) {
-            //// Encabezado (Insignia "Card" + Título)
-            //Row(
-                //modifier = Modifier
-                    //.fillMaxWidth()
-                    //.height(36.dp),
-                //verticalAlignment = Alignment.CenterVertically
-            //) {
-                //Box(
-                    //modifier = Modifier
-                        //.clip(RoundedCornerShape(6.dp))
-                        //.background(Color(0xFF007AFF))
-                        //.padding(horizontal = 8.dp, vertical = 4.dp)
-                //) {
-                    //Text(
-                        //text = "Card",
-                        //color = Color.White,
-                        //fontSize = 12.sp,
-                        //fontWeight = FontWeight.Bold
-                    //)
-                //}
-//
-                //Spacer(modifier = Modifier.width(8.dp))
-//
-                //Text(
-                    //text = "Título",
-                    //fontSize = 16.sp,
-                    //color = Color.Gray
-                //)
-            //}
-//
-            //Spacer(modifier = Modifier.height(4.dp))
-//
-            //// Área de contenido dividida en bloques con bordes
-            //Row(
-                //modifier = Modifier
-                    //.fillMaxWidth()
-                    //.weight(1f)
-                    //.border(1.dp, Color.LightGray, RoundedCornerShape(8.dp))
-            //) {
-                //// Marco del avatar de usuario
-                //Box(
-                    //modifier = Modifier
-                        //.size(110.dp)
-                        //.padding(6.dp)
-                        //.border(1.dp, Color.Gray)
-                        //.padding(4.dp),
-                    //contentAlignment = Alignment.Center
-                //) {
-                    //Text(text = "👤", fontSize = 50.sp)
-                //}
-//
-                //// Columna para campos de información con líneas divisoras
-                //Column(modifier = Modifier.fillMaxSize()) {
-                    //Box(
-                        //modifier = Modifier
-                            //.fillMaxWidth()
-                            //.weight(1f)
-                            //.border(1.dp, Color.LightGray)
-                            //.padding(horizontal = 8.dp, vertical = 4.dp),
-                        //contentAlignment = Alignment.CenterStart
-                    //) {
-                        //Column {
-                            //Text(text = "Nombre", fontSize = 12.sp, color = Color.Gray)
-                            //Text(text = name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
-                        //}
-                    //}
-//
-                    //Box(
-                        //modifier = Modifier
-                            //.fillMaxWidth()
-                            //.weight(1.5f)
-                            //.padding(horizontal = 8.dp, vertical = 4.dp),
-                        //contentAlignment = Alignment.TopStart
-                    //) {
-                        //Column {
-                            //Text(text = "Descripción", fontSize = 12.sp, color = Color.Gray)
-                            //Text(text = description, fontSize = 13.sp)
-                        //}
-                    //}
-                //}
-            //}
-        //}
-    //}
-//}
-//
-///* ============================================================================
-   //EJERCICIO 2: Interfaz usando Box con Fondos de Color para Alineación
-   //============================================================================ */
-//
-//@Composable
-//fun Ejercicio2Screen() {
-    //Box(
-        //modifier = Modifier
-            //.fillMaxSize()
-            //.background(Color.White)
-    //) {
-        //// Esquina superior izquierda
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color.Red)
-                //.align(Alignment.TopStart)
-        //)
-//
-        //// Esquina superior derecha
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF00008B))
-                //.align(Alignment.TopEnd)
-        //)
-//
-        //// Centro absoluto
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color.Yellow)
-                //.align(Alignment.Center)
-        //)
-//
-        //// Esquina inferior izquierda
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF800080))
-                //.align(Alignment.BottomStart)
-        //)
-//
-        //// Esquina inferior derecha
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF00FF00))
-                //.align(Alignment.BottomEnd)
-        //)
-    //}
-//}
-//
-///* ============================================================================
-   //EJERCICIO 3: Interfaz con Box Proporcionales (Uso de Weights)
-   //============================================================================ */
-//
-//@Composable
-//fun Ejercicio3Screen() {
-    //Row(modifier = Modifier.fillMaxSize()) {
-        //// Primera columna: Verde (15%), Rojo (15%), Azul (70%)
-        //ColumnLayoutOne(
-            //modifier = Modifier
-                //.weight(1f)
-                //.fillMaxHeight()
-        //)
-//
-        //Spacer(modifier = Modifier.width(8.dp))
-//
-        //// Segunda columna: Verde (15%), Rojo (75%), Azul (10%)
-        //ColumnLayoutTwo(
-            //modifier = Modifier
-                //.weight(1f)
-                //.fillMaxHeight()
-        //)
-    //}
-//}
-//
-//@Composable
-//fun ColumnLayoutOne(modifier: Modifier = Modifier) {
-    //Column(modifier = modifier) {
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.15f)
-                //.background(Color(0xFF66FF00))
-        //)
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.15f)
-                //.background(Color.Red)
-        //)
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.7f)
-                //.background(Color(0xFF00008B))
-        //)
-    //}
-//}
-//
-//@Composable
-//fun ColumnLayoutTwo(modifier: Modifier = Modifier) {
-    //Column(modifier = modifier) {
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.15f)
-                //.background(Color(0xFF66FF00))
-        //)
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.75f)
-                //.background(Color.Red)
-        //)
-        //Box(
-            //modifier = Modifier
-                //.fillMaxWidth()
-                //.weight(0.1f)
-                //.background(Color(0xFF00008B))
-        //)
-    //}
-//}
-//
-///* ============================================================================
-   //EJERCICIO 4: Disposición de Componentes con ConstraintLayout
-   //============================================================================ */
-//
-//@Composable
-//fun Ejercicio4Screen() {
-    //ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        //val (yellowBox, blueBox, greenBox, purpleBox, redBox) = createRefs()
-//
-        //// Elemento central
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF66FF00))
-                //.constrainAs(greenBox) {
-                    //top.linkTo(parent.top)
-                    //bottom.linkTo(parent.bottom)
-                    //start.linkTo(parent.start)
-                    //end.linkTo(parent.end)
-                //}
-        //)
-//
-        //// Bloque superior izquierdo
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color.Yellow)
-                //.constrainAs(yellowBox) {
-                    //bottom.linkTo(greenBox.top)
-                    //end.linkTo(greenBox.start)
-                //}
-        //)
-//
-        //// Bloque superior derecho
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF00008B))
-                //.constrainAs(blueBox) {
-                    //bottom.linkTo(greenBox.top)
-                    //start.linkTo(greenBox.end)
-                //}
-        //)
-
-        // Bloque inferior izquierdo
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color(0xFF800080))
-                //.constrainAs(purpleBox) {
-                    //top.linkTo(greenBox.bottom)
-                    //end.linkTo(greenBox.start)
-                //}
-        //)
-//
-        //// Bloque inferior derecho
-        //Box(
-            //modifier = Modifier
-                //.size(70.dp)
-                //.background(Color.Red)
-                //.constrainAs(redBox) {
-                    //top.linkTo(greenBox.bottom)
-                    //start.linkTo(greenBox.end)
-                //}
-        //)
-    //}
-//}
-
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Spa
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-
-// ---------------------------------------------------------
-// DATA CLASSES
-// ---------------------------------------------------------
-
-data class AlignYourBodyData(
-    @DrawableRes val drawable: Int,
-    @StringRes val text: Int
-)
-
-data class FavoriteCollectionData(
-    @DrawableRes val drawable: Int,
-    @StringRes val text: Int
-)
-
-// ---------------------------------------------------------
-// DATA
-// ---------------------------------------------------------
-
-private val alignYourBodyData = listOf(
-    AlignYourBodyData(
-        R.drawable.ab1_inversions,
-        R.string.ab1_inversions
-    ),
-    AlignYourBodyData(
-        R.drawable.ab2_quick_yoga,
-        R.string.ab2_quick_yoga
-    ),
-    AlignYourBodyData(
-        R.drawable.ab3_stretching,
-        R.string.ab3_stretching
-    ),
-    AlignYourBodyData(
-        R.drawable.ab4_tabata,
-        R.string.ab4_tabata
-    )
-)
-
-private val favoriteCollectionsData = listOf(
-    FavoriteCollectionData(
-        R.drawable.fc1_short_mantras,
-        R.string.fc1_short_mantras
-    ),
-    FavoriteCollectionData(
-        R.drawable.fc2_nature_meditations,
-        R.string.fc2_nature_meditations
-    )
-)
-
-// ---------------------------------------------------------
-// SEARCH BAR
-// ---------------------------------------------------------
-
-@Composable
-fun SearchBar(
-    modifier: Modifier = Modifier
-) {
-    var searchText by remember {
-        mutableStateOf("")
-    }
-
-    TextField(
-        value = searchText,
-        onValueChange = {
-            searchText = it
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Search"
-            )
-        },
-        placeholder = {
-            Text(
-                text = stringResource(R.string.placeholder_search)
-            )
-        },
-        singleLine = true,
-        colors = TextFieldDefaults.colors(
-            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.outline,
-            focusedIndicatorColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp)
-    )
-}
-
-// ---------------------------------------------------------
-// ALIGN YOUR BODY ELEMENT
-// ---------------------------------------------------------
-
-@Composable
-fun AlignYourBodyElement(
-    @DrawableRes drawable: Int,
-    @StringRes text: Int,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = drawable),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(88.dp)
-                .clip(CircleShape)
-        )
-
-        Text(
-            text = stringResource(id = text),
-            modifier = Modifier.paddingFromBaseline(
-                top = 24.dp,
-                bottom = 8.dp
-            ),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-// ---------------------------------------------------------
-// ALIGN YOUR BODY ROW
-// ---------------------------------------------------------
-
-@Composable
-fun AlignYourBodyRow(
-    modifier: Modifier = Modifier
-) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier
-    ) {
-        items(alignYourBodyData) { item ->
-
-            AlignYourBodyElement(
-                drawable = item.drawable,
-                text = item.text
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// FAVORITE COLLECTION CARD
-// ---------------------------------------------------------
-
-@Composable
-fun FavoriteCollectionCard(
-    @DrawableRes drawable: Int,
-    @StringRes text: Int,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        modifier = modifier
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.width(255.dp)
-        ) {
-            Image(
-                painter = painterResource(id = drawable),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(80.dp)
-            )
-
-            Text(
-                text = stringResource(id = text),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// FAVORITE COLLECTIONS GRID
-// ---------------------------------------------------------
-
-@Composable
-fun FavoriteCollectionsGrid(
-    modifier: Modifier = Modifier
-) {
-    LazyHorizontalGrid(
-        rows = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier.height(168.dp)
-    ) {
-        items(favoriteCollectionsData) { item ->
-
-            FavoriteCollectionCard(
-                drawable = item.drawable,
-                text = item.text,
-                modifier = Modifier.height(80.dp)
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// HOME SECTION
-// ---------------------------------------------------------
-
-@Composable
-fun HomeSection(
-    @StringRes title: Int,
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Column(
-        modifier = modifier
-    ) {
-        Text(
-            text = stringResource(id = title),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .paddingFromBaseline(
-                    top = 40.dp,
-                    bottom = 16.dp
-                )
-                .padding(horizontal = 16.dp)
-        )
-
-        content()
-    }
-}
-
-// ---------------------------------------------------------
-// HOME SCREEN
-// ---------------------------------------------------------
-
-@Composable
-fun HomeScreen(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .verticalScroll(
-                rememberScrollState()
-            )
-    ) {
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-
-        SearchBar(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        HomeSection(
-            title = R.string.align_your_body
-        ) {
-            AlignYourBodyRow()
-        }
-
-        HomeSection(
-            title = R.string.favorite_collections
-        ) {
-            FavoriteCollectionsGrid()
-        }
-
-        Spacer(
-            modifier = Modifier.height(16.dp)
-        )
-    }
-}
-
-// ---------------------------------------------------------
-// BOTTOM NAVIGATION
-// ---------------------------------------------------------
-
-@Composable
-private fun SootheBottomNavigation(
-    modifier: Modifier = Modifier
-) {
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        modifier = modifier
-    ) {
-
-        NavigationBarItem(
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Spa,
-                    contentDescription = "Home"
-                )
-            },
-            label = {
-                Text(
-                    text = stringResource(
-                        R.string.bottom_navigation_home
-                    )
-                )
-            },
-            selected = true,
-            onClick = {}
-        )
-
-        NavigationBarItem(
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Profile"
-                )
-            },
-            label = {
-                Text(
-                    text = stringResource(
-                        R.string.bottom_navigation_profile
-                    )
-                )
-            },
-            selected = false,
-            onClick = {}
-        )
-    }
-}
-
-// ---------------------------------------------------------
-// PORTRAIT
-// ---------------------------------------------------------
-
-@Composable
-fun MySootheAppPortrait() {
-
-    MySootheTheme {
-
-        Scaffold(
-            bottomBar = {
-                SootheBottomNavigation()
-            }
-        ) { paddingValues ->
-
-            HomeScreen(
-                modifier = Modifier.padding(
-                    paddingValues
-                )
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// NAVIGATION RAIL
-// ---------------------------------------------------------
-
-@Composable
-private fun SootheNavigationRail(
-    modifier: Modifier = Modifier
-) {
-    NavigationRail(
-        modifier = modifier.padding(
-            start = 8.dp,
-            end = 8.dp
-        ),
-        containerColor = MaterialTheme.colorScheme.background
-    ) {
-
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            NavigationRailItem(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.Spa,
-                        contentDescription = "Home"
-                    )
-                },
-                label = {
-                    Text(
-                        text = stringResource(
-                            R.string.bottom_navigation_home
-                        )
-                    )
-                },
-                selected = true,
-                onClick = {}
-            )
-
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-
-            NavigationRailItem(
-                icon = {
-                    Icon(
-                        imageVector = Icons.Default.AccountCircle,
-                        contentDescription = "Profile"
-                    )
-                },
-                label = {
-                    Text(
-                        text = stringResource(
-                            R.string.bottom_navigation_profile
-                        )
-                    )
-                },
-                selected = false,
-                onClick = {}
-            )
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// LANDSCAPE
-// ---------------------------------------------------------
-
-@Composable
-fun MySootheAppLandscape() {
-
-    MySootheTheme {
-
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-
-                SootheNavigationRail()
-
-                HomeScreen(
-                    modifier = Modifier.weight(1f)
-                )
-            }
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// RESPONSIVE APP
-// ---------------------------------------------------------
-
-@Composable
-fun MySootheApp(
-    windowSize: WindowSizeClass
-) {
-
-    when (windowSize.widthSizeClass) {
-
-        WindowWidthSizeClass.Compact -> {
-            MySootheAppPortrait()
-        }
-
-        WindowWidthSizeClass.Medium,
-        WindowWidthSizeClass.Expanded -> {
-            MySootheAppLandscape()
-        }
-    }
-}
-
-// ---------------------------------------------------------
-// MAIN ACTIVITY
-// ---------------------------------------------------------
+import com.airbnb.lottie.compose.*
 
 class MainActivity : ComponentActivity() {
-
-    @OptIn(
-        ExperimentalMaterial3WindowSizeClassApi::class
-    )
-    override fun onCreate(
-        savedInstanceState: Bundle?
-    ) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
+            MaterialTheme(
+                colorScheme = darkColorScheme(
+                    primary = Color(0xFF8AB4F8),
+                    surface = Color(0xFF1E1E1E),
+                    background = Color(0xFF121212)
+                )
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MainScreen()
+                }
+            }
+        }
+    }
+}
 
-            val windowSizeClass =
-                calculateWindowSizeClass(this)
+// Modelo de datos para las tareas
+data class Task(val title: String, val description: String, val date: String)
 
-            MySootheApp(
-                windowSize = windowSizeClass
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen() {
+    val context = LocalContext.current
+
+    // Lista de al menos 10 tareas
+    val taskList: List<Task> = listOf(
+        Task("Optimización de Compiladores", "Analizar optimizaciones O2 y O3 en arquitecturas x86-64.", "20-Oct-2026"),
+        Task("Redes de Computadoras", "Configurar enrutamiento Router-on-a-Stick y VLANs.", "22-Oct-2026"),
+        Task("Sistemas Operativos", "Implementar simulación de algoritmos de planificación CPU.", "25-Oct-2026"),
+        Task("Desarrollo Web Móvil", "Diseñar interfaz responsiva con Jetpack Compose.", "27-Oct-2026"),
+        Task("Arquitectura de Computadoras", "Simular esquemas de memoria caché y paginación.", "30-Oct-2026"),
+        Task("Ingeniería de Software", "Documentar casos de uso y diagramas UML para SmartBarrio.", "02-Nov-2026"),
+        Task("Base de Datos Avanzadas", "Optimizar consultas SQL y índices en PostgreSQL.", "05-Nov-2026"),
+        Task("Seguridad Informática", "Implementar certificados SSL y políticas de firewall.", "08-Nov-2026"),
+        Task("Taller de Investigación", "Redactar marco teórico del protocolo de tesis.", "12-Nov-2026"),
+        Task("Inteligencia Artificial", "Entrenar modelo básico de clasificación con Python.", "15-Nov-2026")
+    )
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Panel ITM - Tareas y Utilidades", fontWeight = FontWeight.Bold) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.primary
+                )
+            )
+        }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 1. Sección de Animaciones Lottie (Columna con 2 animaciones continuas)
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Indicadores Activos (Lottie)",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    LottieAnimationView(
+                        url = "https://assets2.lottiefiles.com/packages/lf20_UJnqfb.json",
+                        modifier = Modifier.size(120.dp),
+                        label = "Sincronizando"
+                    )
+                    LottieAnimationView(
+                        url = "https://assets9.lottiefiles.com/packages/lf20_pqn0ivic.json",
+                        modifier = Modifier.size(120.dp),
+                        label = "Sistema OK"
+                    )
+                }
+            }
+
+            // 2. Sección de Botones de Intenciones (Intents del Móvil)
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Acciones del Sistema",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ActionButton(
+                        text = "Llamada de Emergencia (911)",
+                        icon = Icons.Default.Phone,
+                        containerColor = Color(0xFFB71C1C)
+                    ) {
+                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:911"))
+                        context.startActivity(intent)
+                    }
+
+                    ActionButton(
+                        text = "Enviar Correo a Soporte ITM",
+                        icon = Icons.Default.Email,
+                        containerColor = Color(0xFF0D47A1)
+                    ) {
+                        val intent = Intent(Intent.ACTION_SENDTO)
+                        intent.data = Uri.parse("mailto:contacto@morelia.tecnm.mx")
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Consulta Estudiantil")
+                        intent.putExtra(Intent.EXTRA_TEXT, "Estimado departamento, ...")
+                        context.startActivity(intent)
+                    }
+
+                    ActionButton(
+                        text = "Ver Campus 1 (IT Morelia) en Mapa",
+                        icon = Icons.Default.LocationOn,
+                        containerColor = Color(0xFF1B5E20)
+                    ) {
+                        val gmmIntentUri = Uri.parse("geo:19.7027,-101.1925?z=17")
+                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                        mapIntent.setPackage("com.google.android.apps.maps")
+                        context.startActivity(mapIntent)
+                    }
+
+                    ActionButton(
+                        text = "Abrir Sitio Web ITM",
+                        icon = Icons.Default.Public,
+                        containerColor = Color(0xFFE65100)
+                    ) {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.morelia.tecnm.mx"))
+                        context.startActivity(intent)
+                    }
+                }
+            }
+
+            // 3. Sección de Tareas (LazyColumn Cards - 10 tareas)
+            item {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Tareas Pendientes (${taskList.size})",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            items(items = taskList) { task: Task ->
+                TaskCard(task = task)
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
+    }
+}
+
+// Componente para las Tarjetas de Tareas
+@Composable
+fun TaskCard(task: Task) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = task.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = task.date,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = task.description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.LightGray
             )
         }
     }
 }
 
-// ---------------------------------------------------------
-// PREVIEWS
-// ---------------------------------------------------------
-
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFFF5F0EE
-)
+// Componente para reproducir animaciones Lottie de forma continua
 @Composable
-fun AlignYourBodyElementPreview() {
+fun LottieAnimationView(url: String, modifier: Modifier = Modifier, label: String) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.Url(url))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true
+    )
 
-    MySootheTheme {
-
-        AlignYourBodyElement(
-            text = R.string.ab1_inversions,
-            drawable = R.drawable.ab1_inversions,
-            modifier = Modifier.padding(8.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        LottieAnimation(
+            composition = composition,
+            progress = { progress },
+            modifier = Modifier.size(90.dp)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
         )
     }
 }
 
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFFF5F0EE
-)
+// Componente para los botones de acción del sistema
 @Composable
-fun FavoriteCollectionCardPreview() {
-
-    MySootheTheme {
-
-        FavoriteCollectionCard(
-            text = R.string.fc2_nature_meditations,
-            drawable = R.drawable.fc2_nature_meditations,
-            modifier = Modifier.padding(8.dp)
+fun ActionButton(text: String, icon: ImageVector, containerColor: Color, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(containerColor = containerColor),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(20.dp)
         )
-    }
-}
-
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFFF5F0EE,
-    heightDp = 700
-)
-@Composable
-fun ScreenContentPreview() {
-
-    MySootheTheme {
-        MySootheAppPortrait()
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = text, fontWeight = FontWeight.Medium)
     }
 }
