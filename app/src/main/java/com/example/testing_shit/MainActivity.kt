@@ -1,283 +1,372 @@
-package com.example.testing_shit
+package com.example.tareas_desarrollo_apps_moviles
 
+import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Public
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.airbnb.lottie.compose.*
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.tareas_desarrollo_apps_moviles.ui.theme.Tareas_desarrollo_apps_movilesTheme
+
+// ---------- Datos ----------
+
+data class Tarea(
+    val titulo: String,
+    val descripcion: String,
+    val fecha: String
+)
+
+val listaTareas = listOf(
+    Tarea("Tarea 1: Introducción a Kotlin", "Resolver los ejercicios de variables y funciones.", "05/09/2026"),
+    Tarea("Tarea 2: Layouts en Compose", "Crear una pantalla con Column, Row y Box.", "12/09/2026"),
+    Tarea("Tarea 3: Estado en Compose", "Implementar un contador con remember y mutableStateOf.", "19/09/2026"),
+    Tarea("Tarea 4: Navegación", "Navegar entre dos pantallas usando NavHost.", "26/09/2026"),
+    Tarea("Tarea 5: ViewModel", "Separar la lógica de la UI con un ViewModel.", "03/10/2026"),
+    Tarea("Tarea 6: Listas", "Mostrar una lista con LazyColumn y cards.", "10/10/2026"),
+    Tarea("Tarea 7: Animaciones Lottie", "Integrar dos animaciones de LottieFiles.", "17/10/2026"),
+    Tarea("Tarea 8: Intents implícitos", "Llamada, correo, mapa y navegador.", "24/10/2026"),
+    Tarea("Tarea 9: Persistencia", "Guardar datos con Room o DataStore.", "31/10/2026"),
+    Tarea("Tarea 10: Consumo de API", "Consumir un servicio REST con Retrofit.", "07/11/2026"),
+    Tarea("Tarea 11: Permisos", "Solicitar permisos en tiempo de ejecución.", "14/11/2026"),
+    Tarea("Tarea 12: Proyecto final", "Entregar la app completa y documentada.", "28/11/2026")
+)
+
+// ---------- Constantes de los intents (verifica/ajusta con Google Maps) ----------
+
+private const val NUMERO_EMERGENCIAS = "911"
+private const val CORREO_DESTINO = "profesor@morelia.tecnm.mx"
+private const val CAMPUS1_LAT = 19.7233   // Latitud aproximada ITM Campus 1
+private const val CAMPUS1_LNG = -101.1858 // Longitud aproximada ITM Campus 1
+private const val ZOOM_MAPA = 18
+private const val URL_INSTITUTO = "https://www.morelia.tecnm.mx"
+
+// ---------- Pantallas disponibles ----------
+
+enum class Pantalla {
+    MENU,
+    TAREAS,
+    ANIMACIONES,
+    FUNCIONES
+}
+
+// ---------- Activity ----------
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            MaterialTheme(
-                colorScheme = darkColorScheme(
-                    primary = Color(0xFF8AB4F8),
-                    surface = Color(0xFF1E1E1E),
-                    background = Color(0xFF121212)
-                )
-            ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainScreen()
-                }
+            Tareas_desarrollo_apps_movilesTheme {
+                AppPrincipal()
             }
         }
     }
 }
 
-// Modelo de datos para las tareas
-data class Task(val title: String, val description: String, val date: String)
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val context = LocalContext.current
+fun AppPrincipal() {
+    var pantalla by rememberSaveable { mutableStateOf(Pantalla.MENU) }
 
-    // Lista de al menos 10 tareas
-    val taskList: List<Task> = listOf(
-        Task("Optimización de Compiladores", "Analizar optimizaciones O2 y O3 en arquitecturas x86-64.", "20-Oct-2026"),
-        Task("Redes de Computadoras", "Configurar enrutamiento Router-on-a-Stick y VLANs.", "22-Oct-2026"),
-        Task("Sistemas Operativos", "Implementar simulación de algoritmos de planificación CPU.", "25-Oct-2026"),
-        Task("Desarrollo Web Móvil", "Diseñar interfaz responsiva con Jetpack Compose.", "27-Oct-2026"),
-        Task("Arquitectura de Computadoras", "Simular esquemas de memoria caché y paginación.", "30-Oct-2026"),
-        Task("Ingeniería de Software", "Documentar casos de uso y diagramas UML para SmartBarrio.", "02-Nov-2026"),
-        Task("Base de Datos Avanzadas", "Optimizar consultas SQL y índices en PostgreSQL.", "05-Nov-2026"),
-        Task("Seguridad Informática", "Implementar certificados SSL y políticas de firewall.", "08-Nov-2026"),
-        Task("Taller de Investigación", "Redactar marco teórico del protocolo de tesis.", "12-Nov-2026"),
-        Task("Inteligencia Artificial", "Entrenar modelo básico de clasificación con Python.", "15-Nov-2026")
-    )
+    // El botón "atrás" del sistema regresa al menú desde cualquier práctica
+    BackHandler(enabled = pantalla != Pantalla.MENU) {
+        pantalla = Pantalla.MENU
+    }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Panel ITM - Tareas y Utilidades", fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    titleContentColor = MaterialTheme.colorScheme.primary
-                )
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        val modifier = Modifier.padding(innerPadding)
+        when (pantalla) {
+            Pantalla.MENU -> PantallaMenu(
+                modifier = modifier,
+                onElegir = { pantalla = it }
+            )
+            Pantalla.TAREAS -> PantallaTareas(
+                modifier = modifier,
+                onVolver = { pantalla = Pantalla.MENU }
+            )
+            Pantalla.ANIMACIONES -> PantallaAnimaciones(
+                modifier = modifier,
+                onVolver = { pantalla = Pantalla.MENU }
+            )
+            Pantalla.FUNCIONES -> PantallaFunciones(
+                modifier = modifier,
+                onVolver = { pantalla = Pantalla.MENU }
             )
         }
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
+    }
+}
+
+// ---------- Helpers para lanzar intents ----------
+
+private fun Context.lanzarIntent(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(this, "No hay una app disponible para esta acción", Toast.LENGTH_SHORT).show()
+    }
+}
+
+private fun Context.llamadaEmergencia() {
+    // ACTION_DIAL abre el marcador con el número; no requiere permiso CALL_PHONE
+    lanzarIntent(Intent(Intent.ACTION_DIAL, Uri.parse("tel:$NUMERO_EMERGENCIAS")))
+}
+
+private fun Context.redactarCorreo() {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:") // solo apps de correo
+        putExtra(Intent.EXTRA_EMAIL, arrayOf(CORREO_DESTINO))
+        putExtra(Intent.EXTRA_SUBJECT, "Entrega de tarea")
+        putExtra(Intent.EXTRA_TEXT, "Hola, adjunto la entrega de la tarea.\n\nSaludos.")
+    }
+    lanzarIntent(intent)
+}
+
+private fun Context.abrirMapaCampus() {
+    // z = nivel de zoom (1 mundo ... 21 edificios)
+    val uri = Uri.parse("geo:$CAMPUS1_LAT,$CAMPUS1_LNG?z=$ZOOM_MAPA")
+    lanzarIntent(Intent(Intent.ACTION_VIEW, uri))
+}
+
+private fun Context.abrirPaginaInstituto() {
+    lanzarIntent(Intent(Intent.ACTION_VIEW, Uri.parse(URL_INSTITUTO)))
+}
+
+// ---------- Componentes reutilizables ----------
+
+@Composable
+fun Encabezado(titulo: String, onVolver: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextButton(onClick = onVolver) {
+            Text("Menú")
+        }
+        Text(
+            text = titulo,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 8.dp)
+        )
+    }
+}
+
+// ---------- Menú inicial ----------
+
+@Composable
+fun PantallaMenu(modifier: Modifier = Modifier, onElegir: (Pantalla) -> Unit) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Prácticas",
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "Elige la práctica que quieres ver",
+            style = MaterialTheme.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
+        )
+
+        Column(
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // 1. Sección de Animaciones Lottie (Columna con 2 animaciones continuas)
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Indicadores Activos (Lottie)",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    LottieAnimationView(
-                        url = "https://assets2.lottiefiles.com/packages/lf20_UJnqfb.json",
-                        modifier = Modifier.size(120.dp),
-                        label = "Sincronizando"
-                    )
-                    LottieAnimationView(
-                        url = "https://assets9.lottiefiles.com/packages/lf20_pqn0ivic.json",
-                        modifier = Modifier.size(120.dp),
-                        label = "Sistema OK"
-                    )
-                }
+            Button(
+                onClick = { onElegir(Pantalla.TAREAS) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text("1. Lista de tareas (LazyColumn + Cards)")
             }
-
-            // 2. Sección de Botones de Intenciones (Intents del Móvil)
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Acciones del Sistema",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    ActionButton(
-                        text = "Llamada de Emergencia (911)",
-                        icon = Icons.Default.Phone,
-                        containerColor = Color(0xFFB71C1C)
-                    ) {
-                        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:911"))
-                        context.startActivity(intent)
-                    }
-
-                    ActionButton(
-                        text = "Enviar Correo a Soporte ITM",
-                        icon = Icons.Default.Email,
-                        containerColor = Color(0xFF0D47A1)
-                    ) {
-                        val intent = Intent(Intent.ACTION_SENDTO)
-                        intent.data = Uri.parse("mailto:contacto@morelia.tecnm.mx")
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "Consulta Estudiantil")
-                        intent.putExtra(Intent.EXTRA_TEXT, "Estimado departamento, ...")
-                        context.startActivity(intent)
-                    }
-
-                    ActionButton(
-                        text = "Ver Campus 1 (IT Morelia) en Mapa",
-                        icon = Icons.Default.LocationOn,
-                        containerColor = Color(0xFF1B5E20)
-                    ) {
-                        val gmmIntentUri = Uri.parse("geo:19.7027,-101.1925?z=17")
-                        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                        mapIntent.setPackage("com.google.android.apps.maps")
-                        context.startActivity(mapIntent)
-                    }
-
-                    ActionButton(
-                        text = "Abrir Sitio Web ITM",
-                        icon = Icons.Default.Public,
-                        containerColor = Color(0xFFE65100)
-                    ) {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.morelia.tecnm.mx"))
-                        context.startActivity(intent)
-                    }
-                }
+            Button(
+                onClick = { onElegir(Pantalla.ANIMACIONES) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text("2. Animaciones Lottie")
             }
-
-            // 3. Sección de Tareas (LazyColumn Cards - 10 tareas)
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Tareas Pendientes (${taskList.size})",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            items(items = taskList) { task: Task ->
-                TaskCard(task = task)
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
+            Button(
+                onClick = { onElegir(Pantalla.FUNCIONES) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+            ) {
+                Text("3. Funciones del móvil (Intents)")
             }
         }
     }
 }
 
-// Componente para las Tarjetas de Tareas
+// ---------- Práctica 1: LazyColumn con cards ----------
+
 @Composable
-fun TaskCard(task: Task) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+fun PantallaTareas(modifier: Modifier = Modifier, onVolver: () -> Unit) {
+    Column(modifier = modifier.fillMaxSize()) {
+        Encabezado(titulo = "Mis tareas", onVolver = onVolver)
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = task.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = task.date,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
-                )
+            items(listaTareas) { tarea ->
+                TareaCard(tarea)
             }
-            Spacer(modifier = Modifier.height(6.dp))
+        }
+    }
+}
+
+@Composable
+fun TareaCard(tarea: Tarea, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = task.description,
+                text = tarea.titulo,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = tarea.descripcion,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.LightGray
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            Text(
+                text = "Fecha: ${tarea.fecha}",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(top = 8.dp)
             )
         }
     }
 }
 
-// Componente para reproducir animaciones Lottie de forma continua
-@Composable
-fun LottieAnimationView(url: String, modifier: Modifier = Modifier, label: String) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.Url(url))
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = LottieConstants.IterateForever,
-        isPlaying = true
-    )
+// ---------- Práctica 2: dos animaciones Lottie en una columna ----------
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
-            modifier = Modifier.size(90.dp)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Gray
-        )
+@Composable
+fun PantallaAnimaciones(modifier: Modifier = Modifier, onVolver: () -> Unit) {
+    val composicion1 by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animacion1))
+    val composicion2 by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.animacion2))
+
+    Column(modifier = modifier.fillMaxSize()) {
+        Encabezado(titulo = "Animaciones Lottie", onVolver = onVolver)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            LottieAnimation(
+                composition = composicion1,
+                iterations = LottieConstants.IterateForever,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+            LottieAnimation(
+                composition = composicion2,
+                iterations = LottieConstants.IterateForever,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+        }
     }
 }
 
-// Componente para los botones de acción del sistema
+// ---------- Práctica 3: intents ----------
+
 @Composable
-fun ActionButton(text: String, icon: ImageVector, containerColor: Color, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(containerColor = containerColor),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text, fontWeight = FontWeight.Medium)
+fun PantallaFunciones(modifier: Modifier = Modifier, onVolver: () -> Unit) {
+    val context = LocalContext.current
+
+    Column(modifier = modifier.fillMaxSize()) {
+        Encabezado(titulo = "Funciones del móvil", onVolver = onVolver)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Button(onClick = { context.llamadaEmergencia() }, modifier = Modifier.fillMaxWidth()) {
+                Text("Llamada de emergencia")
+            }
+            Button(onClick = { context.redactarCorreo() }, modifier = Modifier.fillMaxWidth()) {
+                Text("Redactar correo electrónico")
+            }
+            Button(onClick = { context.abrirMapaCampus() }, modifier = Modifier.fillMaxWidth()) {
+                Text("Ver Campus 1 en el mapa (zoom)")
+            }
+            Button(onClick = { context.abrirPaginaInstituto() }, modifier = Modifier.fillMaxWidth()) {
+                Text("Abrir página del instituto")
+            }
+        }
+    }
+}
+
+// ---------- Previews ----------
+
+@Preview(showBackground = true)
+@Composable
+fun MenuPreview() {
+    Tareas_desarrollo_apps_movilesTheme {
+        PantallaMenu(onElegir = {})
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TareaCardPreview() {
+    Tareas_desarrollo_apps_movilesTheme {
+        TareaCard(listaTareas.first())
     }
 }
